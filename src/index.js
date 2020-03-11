@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
+import {useModeToggle} from './hooks/useModeToggle';
+
 import Charts from "./components/Charts";
 import Navbar from "./components/Navbar";
 
@@ -9,6 +11,7 @@ import "./styles.scss";
 
 const App = () => {
   const [coinData, setCoinData] = useState([]);
+  const [status, setDarkMode] = useModeToggle(false);
 
   useEffect(() => {
     axios
@@ -19,8 +22,8 @@ const App = () => {
       .catch(err => console.log(err));
   }, []);
   return (
-    <div className="App">
-      <Navbar />
+    <div className={status ? "App dark-mode" : "App"}>
+      <Navbar setDarkMode={setDarkMode} status={status}/>
       <Charts coinData={coinData} />
     </div>
   );
